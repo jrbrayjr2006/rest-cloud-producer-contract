@@ -1,0 +1,6 @@
+description: A simple rest contract
+name: Workouts
+request:
+  url: /workouts
+response:
+  status: 200
