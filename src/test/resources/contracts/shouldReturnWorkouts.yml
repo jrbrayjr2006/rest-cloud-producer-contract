@@ -1,12 +1,12 @@
 description:
-  ```
+  '''
   Given
 
   When
 
   Then
 
-  ```
+  '''
 name: Workouts
 request:
   url: /workouts

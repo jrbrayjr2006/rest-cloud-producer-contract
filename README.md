@@ -22,6 +22,8 @@ This section describes important aspects of Spring Cloud Stream and Spring Cloud
 
 ### Maven Testing Dependencies
 
+When configuring the plugin, make sure to include the `<baseClassForTests>....AbstractContractTest</baseClassForTests>` in the configuration section of the sprinc cloud contract maven plugin.
+
 ```xml
 	<dependencies>
         ...
@@ -64,6 +66,7 @@ This section describes important aspects of Spring Cloud Stream and Spring Cloud
 				<version>2.2.1.RELEASE</version>
 				<extensions>true</extensions>
 				<configuration>
+                    <baseClassForTests>com.jaydot2.rest.cloud.contract.restcloudproducercontract.SimpleAbstractContractTest</baseClassForTests>
 					<testFramework>JUNIT5</testFramework>
 				</configuration>
 			</plugin>
