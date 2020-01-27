@@ -13,29 +13,66 @@ Use the https://start.spring.io site to bootstrap the application and setup the 
 
 ### The Producer
 
-The producer uses an interface to send a message to the output channel.
+The producer exposes a REST endpoint for consumers.
 
 
 ## Testing
 
 This section describes important aspects of Spring Cloud Stream and Spring Cloud Contract testing.
 
-### Gradle Testing Dependencies
+### Maven Testing Dependencies
 
-```groovy
-dependencies {
-    ...
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
-    testImplementation('org.springframework.cloud:spring-cloud-starter-contract-verifier')
-    testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
+```xml
+	<dependencies>
+        ...
+        ...
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-verifier</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    // Junit 5
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.3.1')
-    testImplementation('org.junit.jupiter:junit-jupiter-params:5.3.1')
-    testImplementation('org.mockito:mockito-junit-jupiter:2.23.0')
-    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.3.1')
-}
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>2.2.1.RELEASE</version>
+				<extensions>true</extensions>
+				<configuration>
+					<testFramework>JUNIT5</testFramework>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 ```
 
 ## References
