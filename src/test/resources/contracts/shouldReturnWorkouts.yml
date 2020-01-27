@@ -1,6 +1,15 @@
-description: A simple rest contract
+description:
+  ```
+  Given
+
+  When
+
+  Then
+
+  ```
 name: Workouts
 request:
   url: /workouts
+  method: GET
 response:
   status: 200
