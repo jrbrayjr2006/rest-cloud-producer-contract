@@ -1,6 +1,7 @@
 package com.jaydot2.rest.cloud.contract.restcloudproducercontract.controller;
 
 import com.jaydot2.rest.cloud.contract.restcloudproducercontract.model.Workout;
+import com.jaydot2.rest.cloud.contract.restcloudproducercontract.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,11 @@ import java.util.List;
 @RestController
 public class HomeController {
 
-    public HomeController() {}
+    private WorkoutService workoutService;
+
+    public HomeController(WorkoutService workoutService) {
+        this.workoutService = workoutService;
+    }
 
     @GetMapping(value = "/exercise", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Exercise> exercises() {
@@ -31,13 +36,8 @@ public class HomeController {
 
     @GetMapping( value = "/workout/{workoutId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Workout> workout(@PathVariable Long workoutId) {
-        List<Exercise> exercises = new ArrayList<>();
-        Exercise exercise1 = new Exercise("pushups", 2, 10);
-        Exercise exercise2 = new Exercise("situps", 3, 10);
-        exercises.add(exercise1);
-        exercises.add(exercise2);
-        Workout workout = new Workout(workoutId, exercises);
-        ResponseEntity<Workout> response = ResponseEntity.status(HttpStatus.OK).body(workout);
+        Workout workout = workoutService.getWorkout(workoutId);
+        ResponseEntity<Workout> response = ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(workout);
         return response;
     }
 }

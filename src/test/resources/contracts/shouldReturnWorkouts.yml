@@ -13,6 +13,8 @@ request:
   method: GET
 response:
   status: 200
+  headers:
+    Content-Type: application/json
   body:
     workoutId: 1
     exercises:
@@ -20,14 +22,14 @@ response:
       sets: 3
       reps: 10
     - name: "situps"
-      sets: 3
-      reps: 15
-  matchers:
-    body:
-      exercises:
-        - path: $.[reps]
-          type: by_regex
-          value: "[0-9]+"
-        - path: $.[sets]
-          type: by_regex
-          value: "[0-9]+"
+      sets: 2
+      reps: 10
+#  matchers:
+#    body:
+#      exercises:
+#        - path: $.reps
+#          type: by_regex
+#          value: "[0-9]+"
+#        - path: $.sets
+#          type: by_regex
+#          value: "[0-9]+"

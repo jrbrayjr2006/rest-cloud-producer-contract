@@ -15,6 +15,42 @@ Use the https://start.spring.io site to bootstrap the application and setup the 
 
 The producer exposes a REST endpoint for consumers.
 
+### The Contract
+
+Spring Cloud Contracts supports contracts written in Groovy, YAML, and recently added support for Kotlin.  Below are some sample contracts written using YAML.
+
+#### Contract with an Array in the Response Body
+
+```yaml
+description: A simple contract that enforces the return of a workout with exercises
+name: Workouts
+request:
+  url: /workout/1
+  method: GET
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    workoutId: 1
+    exercises:
+    - name: "pushups"
+      sets: 3
+      reps: 10
+    - name: "situps"
+      sets: 3
+      reps: 15
+  matchers:
+    body:
+      exercises:
+        - path: $.['reps']
+          type: by_regex
+          value: "[0-9]+"
+        - path: $.['sets']
+          type: by_regex
+          value: "[0-9]+"
+```
+
 
 ## Testing
 
