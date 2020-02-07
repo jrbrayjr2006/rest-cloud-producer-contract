@@ -1,15 +1,33 @@
 description:
   '''
   Given
-
+    a workout ID is provided
   When
-
+    a GET request is made
   Then
-
+    a workout is returned
   '''
 name: Workouts
 request:
-  url: /workouts
+  url: /workout/1
   method: GET
 response:
   status: 200
+  body:
+    workoutId: 1
+    exercises:
+    - name: "pushups"
+      sets: 3
+      reps: 10
+    - name: "situps"
+      sets: 3
+      reps: 15
+  matchers:
+    body:
+      exercises:
+        - path: $.[reps]
+          type: by_regex
+          value: "[0-9]+"
+        - path: $.[sets]
+          type: by_regex
+          value: "[0-9]+"

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project provides a sample reference application for implementing Spring Cloud Contract.
+This project provides a sample reference application for implementing Spring Cloud Contract using REST from the producer perspective.
 
 ## Details
 
