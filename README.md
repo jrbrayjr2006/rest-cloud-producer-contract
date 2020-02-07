@@ -15,7 +15,73 @@ Use the https://start.spring.io site to bootstrap the application and setup the 
 
 The producer exposes a REST endpoint for consumers.
 
-### The Contract
+## Testing
+
+This section describes important aspects of Spring Cloud Stream and Spring Cloud Contract testing.
+
+- Abstract contract base test class
+- Contract (YAML, Groovy, Java, or Kotlin)
+- Configuration in the `POM.xml`
+
+### Abstract Contract Test Class
+
+The producer test(s) include the an abstract contract test class that Spring Cloud Contracts uses to autogenerate the producer contract test class.
+
+```java
+import com.jaydot2.rest.cloud.contract.restcloudproducercontract.controller.HomeController;
+import com.jaydot2.rest.cloud.contract.restcloudproducercontract.model.Exercise;
+import com.jaydot2.rest.cloud.contract.restcloudproducercontract.model.Workout;
+import com.jaydot2.rest.cloud.contract.restcloudproducercontract.service.WorkoutService;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.contract.verifier.messaging.boot.AutoConfigureMessageVerifier;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest( classes = { RestCloudProducerContractApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@DirtiesContext
+@AutoConfigureMessageVerifier
+public abstract class SimpleAbstractContractTest {
+
+    HomeController controller;
+    private WorkoutService mockWorkoutService;
+
+    @BeforeEach
+    void setUp() {
+        Long workoutId = 1L;
+        mockWorkoutService = mock(WorkoutService.class);
+        controller = new HomeController(mockWorkoutService);
+        List<Exercise> exercises = new ArrayList<>();
+        Exercise exercise1 = new Exercise("pushups", 2, 10);
+        Exercise exercise2 = new Exercise("situps", 3, 10);
+        exercises.add(exercise1);
+        exercises.add(exercise2);
+        Workout workout = new Workout(workoutId, exercises);
+        when(mockWorkoutService.getWorkout(workoutId)).thenReturn(workout);
+        StandaloneMockMvcBuilder standaloneMockMvcBuilder = MockMvcBuilders.standaloneSetup(controller);
+        RestAssuredMockMvc.standaloneSetup(standaloneMockMvcBuilder);
+    }
+}
+```
+
+The above abstract class needs some explanation.  Let's start with the annotations.
+
+The `@AutoConfigureMessageVerifier` annotation identifies this as a producer test class or abstract class.
+
+The `@SpringBootTest` annotation is used to bring up the Spring context that is necessary for running the contract test(s).  Since contract testing is a form of integration testing, we need aspects of the Spring context to setup our test.
+
+### The Contract (YAML)
 
 Spring Cloud Contracts supports contracts written in Groovy, YAML, and recently added support for Kotlin.  Below are some sample contracts written using YAML.
 
@@ -50,11 +116,6 @@ response:
           type: by_regex
           value: "[0-9]+"
 ```
-
-
-## Testing
-
-This section describes important aspects of Spring Cloud Stream and Spring Cloud Contract testing.
 
 ### Maven Testing Dependencies
 

@@ -7,7 +7,6 @@ import com.jaydot2.rest.cloud.contract.restcloudproducercontract.service.Workout
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.verifier.messaging.boot.AutoConfigureMessageVerifier;
 import org.springframework.test.annotation.DirtiesContext;
