@@ -24,8 +24,11 @@ response:
     - name: "situps"
       sets: 2
       reps: 10
-#  matchers:
-#    body:
+  matchers:
+    body:
+      - path: $.workoutId
+        type: by_regex
+        value: "[0-9]+"
 #      exercises:
 #        - path: $.reps
 #          type: by_regex
