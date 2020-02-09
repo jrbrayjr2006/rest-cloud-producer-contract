@@ -13,11 +13,11 @@ Use the https://start.spring.io site to bootstrap the application and setup the 
 
 ### The Producer
 
-The producer exposes a REST endpoint for consumers.
+The producer exposes a REST endpoint for consumers.  See the GitHub Repo for [Consumer Contract Testing](https://github.com/jrbrayjr2006/rest-cloud-consumer-contract).
 
 ## Testing
 
-This section describes important aspects of Spring Cloud Stream and Spring Cloud Contract testing.
+This section describes important aspects of Spring Cloud Contract producer testing, including generating the stub.
 
 - Abstract contract base test class
 - Contract (YAML, Groovy, Java, or Kotlin)
@@ -181,3 +181,4 @@ When configuring the plugin, make sure to include the `<baseClassForTests>....Ab
 2. [Testing a Spring Boot REST API Against a Contract with Spring Cloud Contract](https://reflectoring.io/consumer-driven-contract-provider-spring-cloud-contract/)
 3. [Contract DSL](https://cloud.spring.io/spring-cloud-contract/multi/multi__contract_dsl.html)
 4. [JUnit 5 Overview](https://junit.org/junit5/docs/current/user-guide/)
+5. [Consumer Contract Testing Sample Repo](https://github.com/jrbrayjr2006/rest-cloud-consumer-contract)
